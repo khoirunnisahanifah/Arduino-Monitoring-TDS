@@ -6,13 +6,12 @@
 #include "GravityTDS.h" //Library TDS Sensor
 
 #define TdsSensorPin A0 //menetapkan Pin TDS1 A0
-#define TdsSensor2Pin A3 //menetapkan Pin TDS1 A0
 GravityTDS gravityTds;
 float tdsValue = 0; //output tds sensor
 
 const char* server = "broker.hivemq.com";
-char ssid[] = "12345";           // your network SSID (name)
-char pass[] = "12345678";           // your network password
+char ssid[] = "indihome";           // your network SSID (name)
+char pass[] = "";           // your network password
 int status = WL_IDLE_STATUS;   // the Wifi radio's status
 
 // Initialize the Ethernet client object
@@ -97,77 +96,65 @@ void loop() {
    String str_tdsValue = String(tdsValue);
    Serial.print(tdsValue,0.0);
    Serial.println(" PPM");
-   delay(5000);
+
    //pub mqtt
-   client.publish("hidroponik/sensor1", (char*)str_tdsValue.c_str());
-   Serial.println("publish");
+   client.publish("client_id/hidro/sen1", (char*)str_tdsValue.c_str());
+
 //relay config
-if (tdsValue >= 50 && tdsValue <=100 ){
+if (tdsValue >=600  && tdsValue <=900 ){
  digitalWrite(relayNutA, relayOFF);
- client.publish("hidroponik/relayA", "relay OFF");
+ client.publish("client_id/hidro/reA", "OFF");
  Serial.println(" Nutrisi A OFF");
  
  digitalWrite(relayNutB, relayOFF);
- client.publish("hidroponik/relayB", "relay OFF");
+ client.publish("client_id/hidro/reB", "OFF");
  Serial.println(" Nutrisi B OFF");
  
- client.publish("hidroponik/pengaduk", "relay OFF");
+ client.publish("client_id/hidro/peng", "OFF");
  digitalWrite(relayPengaduk, relayOFF);
  Serial.println(" Pengaduk OFF");
  
  digitalWrite(relayAir, relayOFF);
- client.publish("hidroponik/relayair", "relay OFF");
+ client.publish("client_id/hidro/reAir", "OFF");
  Serial.println("Pompa Air OFF");
  Serial.println("");
  }
  
-else if (tdsValue >= 0 && tdsValue < 50  ){
+else if (tdsValue >= 0 && tdsValue <=759  ){
  digitalWrite(relayNutA, relayON);
-  client.publish("hidroponik/relayA", "relay ON");
+  client.publish("client_id/hidro/reA", "ON");
  Serial.println("Relay Nutrisi A ON");
  
   
  digitalWrite(relayNutB, relayON);
- client.publish("hidroponik/relayB", "relay ON");
+ client.publish("client_id/hidro/reB", "ON");
  Serial.println("Relay Nutrisi B ON");
  
  digitalWrite(relayPengaduk, relayON);
- client.publish("hidroponik/pengaduk", "relay ON");
+ client.publish("client_id/hidro/peng", "ON");
  Serial.println("Relay Pengaduk ON");
  
  digitalWrite(relayAir, relayOFF);
- client.publish("hidroponik/relayair", "relay OFF");
+ client.publish("client_id/hidro/reAir", "OFF");
  Serial.println("Pompa Air OFF");
  Serial.println("");
 }
 
-else if (tdsValue >=120 && tdsValue <=1500 ){
+else if (tdsValue >=901 ){
  digitalWrite(relayNutA, relayOFF);
- client.publish("hidroponik/relayA", "relay OFF");
+ client.publish("client_id/hidro/reA", "OFF");
  Serial.println("Relay Nutrisi A OFF");
  
  digitalWrite(relayNutB, relayOFF);
- client.publish("hidroponik/relayB", "relay OFF");
+ client.publish("client_id/hidro/reB", "OFF");
  Serial.println("Relay Nutrisi B OFF");
  
  digitalWrite(relayPengaduk, relayOFF);
- client.publish("hidroponik/pengaduk", "relay OFF");
+ client.publish("client_id/hidro/peng", "OFF");
  Serial.println("Pengaduk OFF");
  digitalWrite(relayAir, relayON);
- client.publish("hidroponik/relayair", "relay ON");
+ client.publish("client_id/hidro/reAir", "ON");
  Serial.println("Pompa Air ON");
- Serial.println("");
-}
-
-else { 
- digitalWrite(relayNutA, relayOFF);
-  Serial.println(" Nutrisi A OFF");
- digitalWrite(relayNutB, relayOFF);
- Serial.println(" Nutrisi B OFF");
- digitalWrite(relayPengaduk, relayOFF);
- Serial.println(" Pengaduk OFF");
- digitalWrite(relayAir, relayOFF);
- Serial.println("Pompa Air OFF");
  Serial.println("");
 }
 }
@@ -180,10 +167,9 @@ void reconnect() {
     if (client.connect("arduinoClient")) {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      String str_tdsValue = String(tdsValue);
-      client.publish("esp8266/hidroponikifa", (char*)str_tdsValue.c_str());
+      loop();
       // ... and resubscribe
-      client.subscribe("AR26");
+      client.subscribe("esp/hidro");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
