@@ -22,8 +22,8 @@ const char* server = "broker.emqx.io";
 const char* port_mqtt = 1883;
 
 //inisialisasi konek wifi
-char ssid[] = "Khoirunnisahanifah";           // your network SSID (name)
-char pass[] = "ifaifaifa";           // your network password
+char ssid[] = "xx";           // your network SSID (name)
+char pass[] = "xx";           // your network password
 int status = WL_IDLE_STATUS;   // the Wifi radio's status
 
 // inisialisasi the Ethernet client object
