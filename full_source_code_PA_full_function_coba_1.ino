@@ -22,8 +22,8 @@ const char* server = "broker.emqx.io";
 const char* port_mqtt = 1883;
 
 //inisialisasi konek wifi
-char ssid[] = "xx";           // your network SSID (name)
-char pass[] = "xx";           // your network password
+char ssid[] = "Khoirunnisahanifah";           // your network SSID (name)
+char pass[] = "ifaifaifa";           // your network password
 int status = WL_IDLE_STATUS;   // the Wifi radio's status
 
 // inisialisasi the Ethernet client object
@@ -281,14 +281,14 @@ void relaysemuamati(){
   digitalWrite(relayNutB, relayOFF);
   digitalWrite(relayAir, relayOFF);
   digitalWrite(relayPengaduk, relayOFF);
-  client.publish("client_id/hidro/reA", "OFF");
-  client.publish("client_id/hidro/reB", "OFF");
-  client.publish("client_id/hidro/peng", "OFF");
-  client.publish("client_id/hidro/reAir", "OFF");
   Serial.println(" Nutrisi A OFF");
+  client.publish("client_id/hidro/reA", "OFF");
   Serial.println(" Nutrisi B OFF");
+  client.publish("client_id/hidro/reB", "OFF");
   Serial.println(" Pengaduk OFF");
+  client.publish("client_id/hidro/peng", "OFF");
   Serial.println("Pompa Air OFF");
+  client.publish("client_id/hidro/reAir", "OFF");
   Serial.println("");
 }
 
@@ -297,14 +297,14 @@ void relayairmati(){
   digitalWrite(relayNutB, relayON);
   digitalWrite(relayPengaduk, relayON);
   digitalWrite(relayAir, relayOFF);
-  client.publish("client_id/hidro/reA", "ON");
-  client.publish("client_id/hidro/reB", "ON");
-  client.publish("client_id/hidro/peng", "ON");
-  client.publish("client_id/hidro/reAir", "OFF");
   Serial.println("Relay Nutrisi A ON");
+  client.publish("client_id/hidro/reA", "ON");
   Serial.println("Relay Nutrisi B ON");
+  client.publish("client_id/hidro/reB", "ON");
   Serial.println("Relay Pengaduk ON");
+  client.publish("client_id/hidro/peng", "ON");
   Serial.println("Pompa Air OFF");
+  client.publish("client_id/hidro/reAir", "OFF");
   Serial.println("");
 }
 
@@ -313,19 +313,20 @@ void relayairnyala(){
   digitalWrite(relayNutB, relayOFF);
   digitalWrite(relayPengaduk, relayOFF);
   digitalWrite(relayAir, relayON);
+  Serial.println("Relay Nutrisi A OFF");
   client.publish("client_id/hidro/reA", "OFF");
-  client.publish("client_id/hidro/reB", "OFF");
-  client.publish("client_id/hidro/peng", "OFF");
-  client.publish("client_id/hidro/reAir", "ON");
-  Serial.println("Relay Nutrisi A OFF"); 
   Serial.println("Relay Nutrisi B OFF");
+  client.publish("client_id/hidro/reB", "OFF");
   Serial.println("Pengaduk OFF");
+  client.publish("client_id/hidro/peng", "OFF");
   Serial.println("Pompa Air ON");
+  client.publish("client_id/hidro/reAir", "ON");
   Serial.println("");
 }
 
 void keypadstop(){
-  Serial.println("Stop");
+  
   relaysemuamati();
+  Serial.println("Stop");
   client.publish("client_id/hidro/mingg", "Stop");
 }
