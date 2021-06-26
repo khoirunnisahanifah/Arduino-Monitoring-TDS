@@ -79,7 +79,7 @@ void loop() {
   
           else if (tdsValue >=801 ){
            relayairnyala(); //relay air nyala dan nutrisi A, B pengaduk mati
-          }    //801
+          } //801
            
           if (!client.connected()) {
            reconnectMqtt();
@@ -249,10 +249,10 @@ void dwrelayy(){
 }
 
 void pmkeypad(){
-   pinMode(key1, INPUT_PULLUP);// set pin as input
-   pinMode(key2, INPUT_PULLUP);// set pin as input
-   pinMode(key3, INPUT_PULLUP);// set pin as input
-   pinMode(key4, INPUT_PULLUP);// set pin as input
+  pinMode(key1, INPUT_PULLUP);// set pin as input
+  pinMode(key2, INPUT_PULLUP);// set pin as input
+  pinMode(key3, INPUT_PULLUP);// set pin as input
+  pinMode(key4, INPUT_PULLUP);// set pin as input
 }
 
 //print any message received for subscribed topic
@@ -273,7 +273,7 @@ void tdsprosess(){
   Serial.print(tdsValue,0.0);
   Serial.println(" PPM");
   //pub mqtt
-   client.publish("client_id/hidro/sen1", (char*)str_tdsValue.c_str());
+  client.publish("client_id/hidro/sen1", (char*)str_tdsValue.c_str());
 }
 
 void relaysemuamati(){
@@ -326,6 +326,6 @@ void relayairnyala(){
 
 void keypadstop(){
   Serial.println("Stop");
-           relaysemuamati();
-           client.publish("client_id/hidro/mingg", "Stop");
+  relaysemuamati();
+  client.publish("client_id/hidro/mingg", "Stop");
 }
