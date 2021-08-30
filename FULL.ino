@@ -171,6 +171,7 @@ void loop() {
 }//void loop
 
 void reconnectMqtt() {
+  relaysemuamati();
   // Loop until we're reconnected
   if ( status == WL_CONNECTED) {
   while (!client.connected()) {
@@ -190,6 +191,7 @@ void reconnectMqtt() {
     
       else {
         ledmerahnyala();
+        relaysemuamati();
         Serial.print("failed, rc=");
         Serial.print(client.state());
         Serial.println(" try again in 5 seconds");
