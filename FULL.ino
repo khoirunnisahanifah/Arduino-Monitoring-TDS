@@ -78,12 +78,12 @@ void loop() {
  
    if(!key1S){
     int x=1; 
-    Serial.println("key 1 is 600-800");  
+    Serial.println("key 1 is 600-900");  
     while (x==1){
        client.publish("client_id/hidro/mingg", "Kedua");
        
        tdsprosess();
-       if (tdsValue >=600  && tdsValue <=800 ){
+       if (tdsValue >=600  && tdsValue <=900 ){
          relaysemuamati(); //semua relay dalam keadaan OFF
          }//end if 600-800
          
@@ -91,7 +91,7 @@ void loop() {
            relayairmati(); // relay air mati dan nutrisiA,B pengaduk menyala
           }//0-599
   
-          else if (tdsValue >=801 ){
+          else if (tdsValue >=901 ){
            relayairnyala(); //relay air nyala dan nutrisi A, B pengaduk mati
           } //801
            
@@ -109,15 +109,15 @@ void loop() {
      
      if(!key2S){
      int x=1;   
-     Serial.println("key 2 is 800-1200 PPM ");   
+     Serial.println("key 2 is 900-1200 PPM ");   
      while (x==1){
      client.publish("client_id/hidro/mingg", "Ketiga");
      tdsprosess();
-      if (tdsValue >=800  && tdsValue <=1200 ){
+      if (tdsValue >=901  && tdsValue <=1200 ){
          relaysemuamati(); //semua relay dalam keadaan OFF
          }//800-1200
          
-         else if (tdsValue >= 0 && tdsValue <=799  ){
+         else if (tdsValue >= 0 && tdsValue <=899  ){
            relayairmati();
           }//0-799
   
@@ -145,7 +145,7 @@ void loop() {
       while (x==1){
       client.publish("client_id/hidro/mingg", "Keempat");
       tdsprosess();
-        if (tdsValue >=1200  && tdsValue <=1400 ){
+        if (tdsValue >=1201  && tdsValue <=1400 ){
            relaysemuamati();
            }
          
@@ -316,7 +316,7 @@ void tdsprosess(){
     averageVoltage=getMedianNum(analogBufferTemp,SCOUNT)*(float)VREF/1024.0; // read the analog value more stable by the median filtering algorithm, and convert to voltage value
     float compensationCoefficient=1.0+0.02*(temperature-25.0);    //temperature compensation formula: fFinalResult(25^C) = fFinalResult(current)/(1.0+0.02*(fTP-25.0));
     float compensationVolatge=averageVoltage/compensationCoefficient;  //temperature compensation
-    tdsValue=(133.42*compensationVolatge*compensationVolatge*compensationVolatge-255.86*compensationVolatge*compensationVolatge+857.39*compensationVolatge)*0.7; //convert voltage value to tds value
+    tdsValue=(133.42*compensationVolatge*compensationVolatge*compensationVolatge-255.86*compensationVolatge*compensationVolatge+857.39*compensationVolatge)*0.5; //convert voltage value to tds value
     String str_tdsValue = String(tdsValue);
     Serial.print("TDS Value:");
     Serial.print(tdsValue,0);
